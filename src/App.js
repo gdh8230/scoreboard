@@ -1,57 +1,16 @@
 import React from 'react';
 import './App.css';
 import {Header} from "./components/Header";
-
-
-const Player = (props) => (
-  <div className="player">
-    <span className="player-name">
-    <button className="remove-player" onClick={() => props.removePlayer(props.id)}>X</button>
-      {props.name}
-    </span>
-    {/*<Counter score={props.score}/>*/}
-    <Counter/>
-  </div>
-)
-
-class Counter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      score: 0,
-      time: 10
-    };
-    // this.incrementScore().bind(this);
-    // this.decrementScore = this.decrementScore.bind(this);
-  }
-
-  //Arrow펑션 안의 this는 lexical this로써 자기자신을 가리키게 된다.
-  handleScore = (delta) => {
-    console.log('increment', this);
-    // this.state.score += 1;
-    this.setState(prevState => {
-      return {score: prevState.score + delta}
-    })
-  }
-
-  render() {
-    return (
-      <div className="counter">
-        <button className="counter-action decrement" onClick={() => this.handleScore(-1)}> -</button>
-        <span className="counter-score">{this.state.score}</span>
-        <button className="counter-action increment" onClick={() => this.handleScore(1)}> +</button>
-      </div>
-    )
-  }
-}
+import {Player} from "./components/Player";
+import {AddPlayerForm} from "./components/AddPlayerForm";
 
 class App extends React.Component {
   state = {
     players: [
-      {name: 'LDK', id: 1},
-      {name: 'HONG', id: 2},
-      {name: 'KIM', id: 3},
-      {name: 'PARK', id: 4},
+      {name: 'LDK', id: 1, score: 0},
+      {name: 'HONG', id: 2, score: 0},
+      {name: 'KIM', id: 3, score: 0},
+      {name: 'PARK', id: 4, score: 0},
     ]
   }
 
@@ -63,16 +22,52 @@ class App extends React.Component {
     }))
   }
 
+  handleAddPlayer = (name) =>{
+    console.log('add player name: ', name);
+
+    this.setState(prevState=>{
+      prevState.players.push({
+        name,
+        id: prevState.players.length+1,
+        score: 0
+      })
+      return{
+        players: [...prevState.players]
+      }
+    })
+  }
+
+  /**
+   * 스코어 변경시키는 함수
+   * @param id 플레이어
+   * @param delta 증감
+   */
+  handleChangeScore = (id, delta) =>{
+    console.log('change score', id, delta);
+
+    this.setState(prevStatus=> {
+      prevStatus.players.forEach(player => {
+        if (player.id === id) {
+          player.score += delta;
+        }
+      })
+
+      return {players: [...prevStatus.players] }
+    })
+  }
+
   render() {
     return (
       <div className="scoreboard">
-        <Header title="My scoreboard" totalPlayers={1 + 10}/>
+        <Header title="My scoreboard" players={this.state.players}/>
         {
           this.state.players.map(player => (
-            <Player name={player.name} id={player.id} key={player.id}
-                    removePlayer={this.handleRemovePlayer}/>
+            <Player name={player.name} id={player.id} score = {player.score} key={player.id}
+                    removePlayer={this.handleRemovePlayer}
+                    changeScore={this.handleChangeScore}/>
           ))
         }
+        <AddPlayerForm addPlayer={this.handleAddPlayer} />
       </div>
     )
   }
