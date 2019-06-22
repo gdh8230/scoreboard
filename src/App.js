@@ -1,16 +1,7 @@
 import React from 'react';
 import './App.css';
+import {Header} from "./components/Header";
 
-const Header = (props) => {
-  console.log(props);
-  const {title, totalPlayers} = props; //destruct assignment
-  return (
-    <header className="header">
-      <h1 className="h1">{title}</h1>
-      <span className="stats">Players: {totalPlayers}</span>
-    </header>
-  );
-}
 
 const Player = (props) => (
   <div className="player">
