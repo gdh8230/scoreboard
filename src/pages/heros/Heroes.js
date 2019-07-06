@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from '../../utils/api';
 import Pagination from 'rc-pagination';
+import {Route, Switch} from "react-router-dom";
+import {Hero} from "./Hero";
 
 export class Heroes extends React.Component {
   state = {
@@ -13,10 +15,14 @@ export class Heroes extends React.Component {
   render() {
     return (
       <>
+        <Switch>
+          <Route path="/heroes/:id" component={Hero}></Route>
+        </Switch>
+
         <div className="row">
           {this.state.heroes.map(hero => (
-            <div className="col-6 col-md-4 col-lg-3 col-xl-2 p-1 p-sm-2 p-md-3" key={hero.hero_id}>
-              <div className="card">
+            <div className="col-6 col-md-4 col-lg-3 col-xl-2 p-1 p-sm-2 p-md-3" key={hero.id}>
+              <div className="card" onClick={()=> this.handleClick(hero.id)}>
                 <img src={hero.photo ? hero.photo : process.env.PUBLIC_URL + '/images/baseline-face-24px.svg'}
                      style={{width: '100%'}} alt={hero.name}></img>
                 <div className="card-body">
@@ -62,5 +68,10 @@ export class Heroes extends React.Component {
     }, () => {
       this.getHeroes();
     })
+  }
+
+  handleClick = (id) => {
+    console.log(id);
+    this.props.history.push(`/heroes/${id}`);
   }
 }
