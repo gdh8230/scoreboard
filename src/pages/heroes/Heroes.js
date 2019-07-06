@@ -15,14 +15,15 @@ export class Heroes extends React.Component {
   render() {
     return (
       <>
+        {/*상세보기 네스티드 라우팅 구성 - /부로경로/자식경로 */}
         <Switch>
-          <Route path="/heroes/:id" component={Hero}></Route>
+          <Route path="/heroes/hero/:id" component={Hero}></Route>
         </Switch>
 
         <div className="row">
           {this.state.heroes.map(hero => (
             <div className="col-6 col-md-4 col-lg-3 col-xl-2 p-1 p-sm-2 p-md-3" key={hero.id}>
-              <div className="card" onClick={()=> this.handleClick(hero.id)}>
+              <div className="card" onClick={() => this.handleClick(hero.id)}>
                 <img src={hero.photo ? hero.photo : process.env.PUBLIC_URL + '/images/baseline-face-24px.svg'}
                      style={{width: '100%'}} alt={hero.name}></img>
                 <div className="card-body">
@@ -60,8 +61,8 @@ export class Heroes extends React.Component {
     });
   }
 
-  onChange = (e) => {
-    console.log(e);
+  onChange = (e, e2) => {
+    console.log(e, e2);
     // start_index update
     this.setState({
       currentPage: e
@@ -72,6 +73,6 @@ export class Heroes extends React.Component {
 
   handleClick = (id) => {
     console.log(id);
-    this.props.history.push(`/heroes/${id}`);
+    this.props.history.push(`/heroes/hero/${id}`);
   }
 }

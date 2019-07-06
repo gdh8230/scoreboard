@@ -54,6 +54,7 @@ export class Hero extends React.Component {
         </div> : ''
     );
   }
+
   componentWillReceiveProps(newProps) {
     console.log('componentWillReceiveProps', newProps);
     this.getHero(newProps.match.params.id);
