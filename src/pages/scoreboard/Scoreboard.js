@@ -1,11 +1,11 @@
 import React from 'react';
-import './App.css';
-import Header from "./components/Header";
-import Player from "./components/Player";
-import AddPlayerForm from "./components/AddPlayerForm";
+import Header from "../../components/Header";
+import Player from "../../components/Player";
+import AddPlayerForm from "../../components/AddPlayerForm";
 import {connect} from "react-redux";
+import './Scoreboard.css'
 
-class App extends React.Component {
+class Scoreboard extends React.Component {
   render() {
     return (
       <div className="scoreboard">
@@ -25,4 +25,4 @@ const mapStateToProps = (state) => ({
   players: state.playerReducer.players,
 })
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, null)(Scoreboard);
